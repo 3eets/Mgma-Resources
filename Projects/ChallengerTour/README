@@ -1,0 +1,30 @@
+ChallengerTour
+
+El objetivo del modelo esta descrito en la hoja de código 'ModelosPrediccion'
+
+Para utilizar el código tal y como esta la hoja de código se requiere utilizar Databricks.
+En este momento la tabla de datos ChallengerTour es una muestra pequeña de lo que se puede llegar hacer con más datos.
+
+Como modo de verificación de los datos se puede hacer referencia al ranking de la ATP con fecha Diciembre 23, 2019
+https://www.atptour.com/en/rankings/singles?rankDate=2019-12-23&rankRange=1-5000
+
+Creación del cluster en Databricks:
+Antes de empezar hay que configurar el cluster con la opción:  spark.databricks.workspace.matplotlibInline.enabled = true
+
+De esta forma se puede utilizar matplotlib inline. 
+
+InstallDependecies
+
+Este archivo se requiere ejecutar para instalar las librerias que se necesitan dentro de Databricks.
+Como queremos instalarlas solo para este proyecto se ejecuta el código en un notebook aparte.
+
+En la hoja de código se hace referencia a InstallDependencies con %run
+
+Por hacer
+El proyecto esta abierto a recomendaciones y se podrá agregar a la hoja de cálculo en especial si se cuenta con más datos.
+Por ahora la mejor opción sería agregar el historial o la trayectoria del Challenger Tour de los jugadores restantes (61-179).
+
+Autor: Daniel Andrade
+E: daniel@mgma.io
+
+

@@ -5,10 +5,16 @@ El objetivo del modelo esta descrito en la hoja de código 'ModelosPrediccion'
 Para utilizar el código tal y como esta la hoja de código se requiere utilizar Databricks.
 En este momento la tabla de datos ChallengerTour es una muestra pequeña de lo que se puede llegar hacer con más datos.
 
+Referencia:
+El código por su mayor parte es una adaptación del código de algunos ejercicios del libro Hands-On Unsupervised Learning Using Python de Ankur A.Patel
+https://www.amazon.ca/Hands-Unsupervised-Learning-Using-Python/dp/1492035645/ref=sr_1_1?crid=253T5N8B2U7LL&keywords=hands+on+unsupervised+learning&qid=1583842520&sprefix=hands+on+unsu%2Caps%2C173&sr=8-1
+
 Como modo de verificación de los datos se puede hacer referencia al ranking de la ATP con fecha Diciembre 23, 2019
 https://www.atptour.com/en/rankings/singles?rankDate=2019-12-23&rankRange=1-5000
 
-Creación del cluster en Databricks:
+Environment:
+
+Creación del cluster en Databricks.
 Antes de empezar hay que configurar el cluster con la opción:  spark.databricks.workspace.matplotlibInline.enabled = true
 
 De esta forma se puede utilizar matplotlib inline. 
@@ -20,7 +26,7 @@ Como queremos instalarlas solo para este proyecto se ejecuta el código en un no
 
 En la hoja de código se hace referencia a InstallDependencies con %run
 
-Por hacer
+Por hacer:
 El proyecto esta abierto a recomendaciones y se podrá agregar a la hoja de cálculo en especial si se cuenta con más datos.
 Por ahora la mejor opción sería agregar el historial o la trayectoria del Challenger Tour de los jugadores restantes (61-179).
 

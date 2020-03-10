@@ -1,1 +1,7 @@
-
+dbutils.library.installPyPI("keras")
+dbutils.library.installPyPI("scikit-learn")
+dbutils.library.installPyPI("lightgbm")
+dbutils.library.installPyPI("xlrd")
+dbutils.library.installPyPI("bootstrapped")
+dbutils.library.installPyPI("tensorflow")
+dbutils.library.restartPython()

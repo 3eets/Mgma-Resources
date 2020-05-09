@@ -3,7 +3,7 @@ Created on May  8th 2020
 Module initially created for reading in Metrica sample data but adapted for #FoT challenge
 Data can be found at: https://github.com/Friends-of-Tracking-Data-FoTD/Last-Row (Not Metrica data :p
 @author: Laurie Shaw (@EightyFivePoint)
-adapated by: Daniel Andrade
+adapted by: Daniel Andrade
 """
 
 import numpy as np

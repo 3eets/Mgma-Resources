@@ -8,7 +8,7 @@ Module initially created for reading in Metrica sample data but adapted for #FoT
 Data can be found at: https://github.com/Friends-of-Tracking-Data-FoTD/Last-Row (Not Metrica data :p
 
 @author: Laurie Shaw (@EightyFivePoint)
-adapated by: Daniel Andrade
+adapted by: Daniel Andrade
 """
 
 import pandas as pd

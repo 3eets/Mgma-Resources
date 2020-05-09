@@ -4,7 +4,6 @@ import Metrica_Velocities_LR as mvel
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import Metrica_Velocities_LR as mvel
 
 DATADIR = '/Users/User/Documents/BigData/FOT/Last-Row-master/datasets/positional_data'
 data = pd.read_csv('~/Documents/BigData/FOT/Last-Row-master/datasets/positional_data/liverpool_2019.csv', index_col=('play', 'frame'))

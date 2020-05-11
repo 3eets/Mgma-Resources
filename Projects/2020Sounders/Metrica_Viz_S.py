@@ -8,6 +8,7 @@ Module for visualising Metrica tracking and event data
 Data can be found at: https://github.com/metrica-sports/sample-data
 
 @author: Laurie Shaw (@EightyFivePoint)
+adapted by: Daniel Andrade 
 """
 
 import matplotlib.pyplot as plt

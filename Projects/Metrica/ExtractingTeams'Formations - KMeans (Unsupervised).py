@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jun 25 17:53:28 2020
+
+@author: Daniel Andrade @Mgmaplus
+"""
+
 import pandas as pd 
 from sklearn.cluster import KMeans
 import Metrica_IO as mio
@@ -22,11 +29,11 @@ tracking_home, tracking_away, events = mio.to_single_playing_direction(tracking_
 #Teams dataframes with frames of defensive actions and attacking actions
 #Starting to create dataframes of possible formations (attacking - defending)
 
-defense_home_formations = tracking_home.loc[events[(events.Team == 'Away') & (events.Type != 'BALL LOST') & (events.Type == 'PASS')]['Start Frame']]
-attacking_home_formations = tracking_home.loc[events[(events.Team == 'Home') & (events.Type != 'BALL LOST') & (events.Type == 'PASS')]['Start Frame']]
+defense_home_formations = tracking_home.loc[events[(events.Team == 'Away') & (events.Type == 'PASS')]['Start Frame']]
+attacking_home_formations = tracking_home.loc[events[(events.Team == 'Home') & (events.Type == 'PASS')]['Start Frame']]
 
-defense_away_formations = tracking_away.loc[events[(events.Team == 'Home') & (events.Type != 'BALL LOST') & (events.Type == 'PASS')]['Start Frame']]
-attacking_away_formations = tracking_away.loc[events[(events.Team == 'Away') & (events.Type != 'BALL LOST') & (events.Type == 'PASS')]['Start Frame']]
+defense_away_formations = tracking_away.loc[events[(events.Team == 'Home') & (events.Type == 'PASS')]['Start Frame']]
+attacking_away_formations = tracking_away.loc[events[(events.Team == 'Away') & (events.Type == 'PASS')]['Start Frame']]
 
 import numpy as np
 def frames(df):
@@ -53,15 +60,14 @@ def substitutes(df):
             player2 = df[subs[k]].dropna().copy()
             item = subs[0]
             subs.remove(item)
+        elif frames == len(df[subs[k+2]].dropna()):
+            player2 = df[subs[k+2]].dropna().copy()
+            item = subs[2]
+            subs.remove(item)
         else:
-            if frames == len(df[subs[k+2]].dropna()):
-                player2 = df[subs[k+2]].dropna().copy()
-                item = subs[2]
-                subs.remove(item)
-            else:
-                player2 = df[subs[k+4]].dropna().copy()
-                item = subs[4]
-                subs.remove(item)
+            player2 = df[subs[k+4]].dropna().copy()
+            item = subs[4]
+            subs.remove(item)
         new_df[i] = player1.append(player2)
     return new_df
 
@@ -80,7 +86,6 @@ for i in range(2, 10):
 import matplotlib.pyplot as plt
 plt.plot(inertias)
 
-# Selects the appropriate number of clusters for defense and attack for both home and away possible formations
 model = KMeans(n_clusters = 1, random_state = 120)
 model.fit(defense_home)
 centroids = model.cluster_centers_
@@ -120,10 +125,8 @@ attack_away_3_means = attack_away_3.mean(axis = 0)[0:22]
 
 defense_away_means = defense_away.mean(axis = 0)[0:22] 
 
-# For pitch annotations
 vectors = [['Home_4_x','Home_3_x', 'Home_2_x', 'Home_7_x', 'Home_8_x','Home_6_x', 'Home_5_x'], ['Home_4_y','Home_3_y','Home_2_y', 'Home_7_y','Home_8_y','Home_6_y', 'Home_5_y'], ['Away_17_x','Away_15_x', 'Away_16_x', 'Away_20_x', 'Away_18_x','Away_19_x', 'Away_21_x', 'Away_22_x'], ['Away_17_y','Away_15_y','Away_16_y', 'Away_20_y','Away_18_y','Away_19_y', 'Away_21_y', 'Away_22_y']]
 
-#Plotting different formations with KNN
 title = 'Home defense 4-1-3-2 / Away attack (1) 3-5-2  model = KNN'
 mviz.plot_frame_centroids(defense_home_means, attack_away_1_means, vectors, title, annotate = True, switch = 2)
 title = 'Home defense 4-1-3-2 / Away attack (2) 4-4-2  model = KNN'
@@ -134,11 +137,6 @@ title = 'Home attack 4-1-3-2 / Away defense 4-4-2  model = KNN'
 mviz.plot_frame_centroids(attack_home_means, defense_away_means, vectors, title, annotate = True)
 
 
-# What are the possible formations with Spectral Clustering
-##
-##
-
-#Number of clusters in each df shouldn't change
 from sklearn.cluster import SpectralClustering
 
 model = SpectralClustering(n_clusters=1, affinity='nearest_neighbors',
@@ -161,7 +159,6 @@ model = SpectralClustering(n_clusters=1, affinity='nearest_neighbors',
 labels = model.fit_predict(defense_away)
 defense_away['labels'] = labels
 
-# Group in a df the data points for each label to later plot these formations
 defense_home_means = defense_home.mean(axis = 0)[0:22] 
 
 attack_home_means = attack_home.mean(axis = 0)[0:22]
@@ -176,12 +173,11 @@ attack_away_3_means = attack_away_3.mean(axis = 0)[0:22]
 
 defense_away_means = defense_away.mean(axis = 0)[0:22] 
 
-#Plotting
-title = 'Home defense 4-1-3-2 / Away attack (1) 3-5-2 /n model = Spectral Clustering'
-mviz.plot_frame_centroids(defense_home_means, attack_away_1_means, vectors, title, annotate = True)
-title = 'Home defense 4-1-3-2 / Away attack (2) 4-4-2 /n model = Spectral Clustering'
+title = 'Home defense 4-1-3-2 / Away attack (1) 3-5-2 model = Spectral Clustering'
+mviz.plot_frame_centroids(defense_home_means, attack_away_1_means, vectors, title, annotate = True, switch = 3)
+title = 'Home defense 4-1-3-2 / Away attack (2) 4-4-2 model = Spectral Clustering'
 mviz.plot_frame_centroids(defense_home_means, attack_away_2_means, vectors, title, annotate = True)
-title = 'Home defense 4-1-3-2 / Away attack (3) 3-1-4-2 /n model = Spectral Clustering'
-mviz.plot_frame_centroids(defense_home_means, attack_away_3_means, vectors, title, annotate = True, switch = 3)
-title = 'Home attack 4-1-3-2 / Away defense 4-4-2 /n model = Spectral Clustering'
+title = 'Home defense 4-1-3-2 / Away attack (3) 3-1-4-2 model = Spectral Clustering'
+mviz.plot_frame_centroids(defense_home_means, attack_away_3_means, vectors, title, annotate = True, switch = 2)
+title = 'Home attack 4-1-3-2 / Away defense 4-4-2 model = Spectral Clustering'
 mviz.plot_frame_centroids(attack_home_means, defense_away_means, vectors, title, annotate = True)

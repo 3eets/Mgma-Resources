@@ -8,10 +8,10 @@ import pandas as pd
 DATADIR = '/Users/User/Documents/BigData/FOT/Last-Row-master/datasets/positional_data'
 data = pd.read_csv('~/Documents/BigData/FOT/Last-Row-master/datasets/positional_data/liverpool_2019.csv', index_col=('play', 'frame'))
 
-# Dataframe of goals
+# Initializing Dataframe of goals
 eventos = pd.DataFrame()
 
-# List for defenders in front of the ball when goals are shot
+# List for defenders in front of the ball when shots of all goals are made
 defenders = []
 
 plays = data.index.get_level_values('play').unique()
@@ -158,7 +158,7 @@ H_Goal=np.histogram2d(goals_map['Start X'], goals_map['Start Y'],bins=50,range=[
 
 
 
-#Plot the number of shots from different points
+#Plot the 19 goals on same plot for visualization
 (fig,ax) = mviz.createGoalMouth()
 pos=ax.imshow(H_Goal[0], extent=[0,65,0,54], aspect='auto',cmap=plt.cm.Reds)
 fig.colorbar(pos, ax=ax)
@@ -174,7 +174,7 @@ fig.savefig('NumberOfShots.png', dpi=None, bbox_inches="tight")
 # Who scored?
 top_scorers = eventos[eventos.Type == 'SHOT'].groupby('From').count()['Type'].sort_values(ascending = False)
 
-# Organizing data b assists
+# Organizing data by assists
 index = new[new.Type == 'SHOT'].index - 1
 assists_df = new.loc[index,:]
 for i in assists_df.index:
@@ -198,7 +198,10 @@ players_break.sort_values(ascending = False)
 average_front = sum(defenders) / 19
 
 # Saving tables
-players_kits = {4:'Virgil van Dijk', 5:'Georginio Wijnaldum', 7:'James Milner', 8:'Naby Keita', 9:'Roberto Firmino', 10:'Sadio Mane', 11:'Mohamed Salah', 14:'Jordan Henderson', 20:'Adam Lallana', 23:'Xherdan Shaqiri', 26:'Andrew Robertson', 27:'Divock Origi', 66:'Trent Alexander-Arnold'}
+players_kits = {4:'Virgil van Dijk', 5:'Georginio Wijnaldum', 7:'James Milner', 8:'Naby Keita', 
+                9:'Roberto Firmino', 10:'Sadio Mane', 11:'Mohamed Salah', 14:'Jordan Henderson', 
+                20:'Adam Lallana', 23:'Xherdan Shaqiri', 26:'Andrew Robertson', 27:'Divock Origi', 66:'Trent Alexander-Arnold'}
+
 kits = pd.DataFrame(players_kits.values(), index = players_kits.keys(), columns =['Name'])
 
 one = kits.merge(np.round(players_break, 1), how= 'right', left_index = True, right_index = True)

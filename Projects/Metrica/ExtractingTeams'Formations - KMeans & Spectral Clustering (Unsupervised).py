@@ -85,11 +85,39 @@ for i in range(2, 10):
     model = KMeans(n_clusters = i, n_init = 100)
     model.fit(attack_away)
     inertias.append(model.inertia_)
-
+ 
 import matplotlib.pyplot as plt
 plt.plot(inertias)
 
-# For our different dfs, we find k = 1 for three of them and k = 3 for a single one.
+# Also focus on looking at the silhouette analysis to find how different number of clusters perform vs the average value of their clusters, that is
+# the average distance of the samples from a neighbouring cluster
+# Done for the 4 different dfs
+
+import matplotlib.cm as cm
+for i in range(2,10) :
+    fig, ax1 = plt.subplots(figsize=(18,7))
+    ax1.set_xlim([-0.1, 1])
+    ax1.set_ylim([0, len(attack_away) + (i+1) *10])
+    model = KMeans(n_clusters = i, n_init = 100)
+    labels = model.fit_predict(attack_away)
+    silhouette_avg = silhouette_score(attack_away, labels)
+    sample_silhouette_values = silhouette_samples(attack_away, labels)
+    y_lower = 10
+    for k in range(i):
+        ith_cluster_silhouette_values = sample_silhouette_values[labels == k]
+        ith_cluster_silhouette_values.sort()
+        size_cluster_k = ith_cluster_silhouette_values.shape[0]
+        y_upper = y_lower + size_cluster_k
+        color = cm.nipy_spectral(float(k) / i)
+        ax1.fill_betweenx(np.arange(y_lower, y_upper), 0, ith_cluster_silhouette_values, facecolor = color, edgecolor = color, alpha = 0.7)
+        y_lower = y_upper + 10 
+    ax1.axvline( x = silhouette_avg, color = "red", linestyle = "--")
+    ax1.set_yticks([])
+    ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
+        
+plt.show()
+
+# For our different dfs, we find k = 1 for three of our dfs and k = 3 for a single one (attack_away).
 
 model = KMeans(n_clusters = 1, random_state = 120)
 model.fit(defense_home)
